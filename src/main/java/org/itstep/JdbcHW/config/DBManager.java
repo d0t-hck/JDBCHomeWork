@@ -16,9 +16,8 @@ public class DBManager {
 
     public List<Item> getAllItems() throws SQLException {
         List<Item> itemList = new ArrayList<>();
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
-            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ALL);
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
+             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -36,9 +35,8 @@ public class DBManager {
 
     public Item getItem(Long id) {
         Item item = new Item();
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
-            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID);
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
+             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
@@ -53,9 +51,8 @@ public class DBManager {
     }
 
     public void addItem(String name, Double price) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY);
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
+             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY)) {
             preparedStatement.setString(1, name);
             preparedStatement.setDouble(2, price);
             preparedStatement.executeUpdate();
@@ -65,9 +62,8 @@ public class DBManager {
     }
 
     public void addItem(Item item) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY);
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
+             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setDouble(2, item.getPrice());
             preparedStatement.executeUpdate();
@@ -77,9 +73,8 @@ public class DBManager {
     }
 
     public void updateItem(Item item) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY);
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setDouble(2, item.getPrice());
             preparedStatement.setLong(3, item.getId());
@@ -90,9 +85,8 @@ public class DBManager {
     }
 
     public void deleteItem(Long id) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY);
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "9537");
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
             preparedStatement.setDouble(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
